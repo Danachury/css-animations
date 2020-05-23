@@ -1,0 +1,42 @@
+$color: grey
+$lds-spinner-size: 64px
+
+=animate-child($rotate-deg, $animation-delay)
+	transform: rotate($rotate-deg)
+	animation-delay: $animation-delay
+
+=animate-childs($child-count)
+	@for $i from 1 through $child-count
+		&:nth-child(#{$i})
+			@debug '$i is #{$i} and #{($i - 1) * 30}deg - -#{$i * 1.1}s'
+			+animate-child(#{($i - 1) * 30}deg, -#{$i * 1.1}s)
+
+
+.lds-spinner
+	display: inline-block
+	position: relative
+	width: $lds-spinner-size
+	height: $lds-spinner-size
+
+	div
+		transform-origin: 32px 32px
+		animation: lds-spinner 1.2s linear infinite
+
+		&:after
+			content: ' '
+			display: block
+			position: absolute
+			top: 3px
+			left: 29px
+			height: 14px
+			width: 5px
+			border-radius: 20%
+			background: $color
+
+		+animate-childs(12)
+
+@keyframes lds-spinner
+	0%
+		opacity: 1
+	100%
+		opacity: 0
